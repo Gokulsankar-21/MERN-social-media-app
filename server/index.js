@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
 import mongoose from "mongoose";
+import { register } from "module";
+
 // configuration
 const app = express();
 const port = process.env.PORT || 6000;
@@ -51,7 +53,9 @@ mongoose
   })
   .catch((err) => console.log("error : " + err.message));
 
-// API route
+// API route -  Multer - Router with Files
+app.use("/api/auth/register", upload.single("picture"), register);
+
 /**
  * I understand the datamodel - ithula enaku etha maari oru style thought process ituku atha tha work pannuven
  * Ivarkuita nala ideas oda soldraru - enaku suite aguthu
