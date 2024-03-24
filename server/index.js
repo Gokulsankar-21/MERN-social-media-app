@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
 import mongoose from "mongoose";
-import { register } from "module";
+import { register } from "./controllers/auth.controller.js";
 
 // configuration
 const app = express();
@@ -54,8 +54,10 @@ mongoose
   .catch((err) => console.log("error : " + err.message));
 
 // API route -  Multer - Router with Files
-app.use("/api/auth/register", upload.single("picture"), register);
+app.post("/api/auth/register", upload.single("picture"), register); // ithuku authendication theva ila and intha route ah nama inga yum protect pannalam
 
+// API Route
+app.use("/auth", authRoutes);
 /**
  * I understand the datamodel - ithula enaku etha maari oru style thought process ituku atha tha work pannuven
  * Ivarkuita nala ideas oda soldraru - enaku suite aguthu
