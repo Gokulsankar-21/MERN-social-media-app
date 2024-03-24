@@ -1,9 +1,15 @@
 import jwt from "jsonwebtoken";
+// Authorization
 const verifyToken = async (req, res, next) => {
   try {
-    const token = req.headers("Authorization");
+    // validating user is authenticate or not
+    let token = req.headers("Authorization"); // one of the way
     if (!token) {
       return res.status(400).json({ error: "UnAuthorized" });
+    }
+    // getting the token without bearer
+    if (token.startsWith("Bearer ")) {
+      token = token.slice(7, token.length.trimLeft());
     }
     const verified = jwt.verify(token, process.env.JWT_SECRETKEY);
     if (verified) {
