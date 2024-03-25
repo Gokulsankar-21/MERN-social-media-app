@@ -26,9 +26,14 @@ const UserSchema = mongoose.Schema(
       min: 5,
       max: 50,
     },
-    connections: {
+    friends: {
+      // namala follow pandravanhga
       type: Array,
     },
+    // following: { // - ithu linkedIn ku suitable ah iruku
+    //   // nama innoruthara follow pandathu
+    //   type: Array,
+    // },
     profilePic: {
       type: String,
       default: "",

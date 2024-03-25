@@ -58,6 +58,7 @@ app.post("/api/auth/register", upload.single("picture"), register); // ithuku au
 
 // API Route
 app.use("/auth", authRoutes);
+app.use("/user",)
 /**
  * I understand the datamodel - ithula enaku etha maari oru style thought process ituku atha tha work pannuven
  * Ivarkuita nala ideas oda soldraru - enaku suite aguthu

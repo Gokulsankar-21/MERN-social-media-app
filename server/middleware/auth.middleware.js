@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 // Authorization
-const verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   try {
     // validating user is authenticate or not
     let token = req.headers("Authorization"); // one of the way
