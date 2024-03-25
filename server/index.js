@@ -7,8 +7,14 @@ import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
 import mongoose from "mongoose";
+// local module
 import { register } from "./controllers/auth.controller.js";
-
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
+import { verifyToken } from "./middleware/auth.middleware.js";
+import { createPost } from "./controllers/post.controller.js";
+import dotenv from "dotenv";
 // configuration
 const app = express();
 const port = process.env.PORT || 6000;
@@ -45,6 +51,7 @@ const upload = multer({
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
+    console.log("MongoDB Connected Successfully");
     /// server running
     app.listen(port, () => {
       //   console.log("Server is running on port " + port);
@@ -55,10 +62,21 @@ mongoose
 
 // API route -  Multer - Router with Files
 app.post("/api/auth/register", upload.single("picture"), register); // ithuku authendication theva ila and intha route ah nama inga yum protect pannalam
+app.post(
+  "/api/post/createPost",
+  verifyToken,
+  upload.single("picture"),
+  createPost
+); // ithu nama server la files ah upload pandrathuku mattum intha router method ah use pandrom
 
 // API Route
-app.use("/auth", authRoutes);
-app.use("/user",)
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
+app.get("/api/test", (req, res) => {
+  console.log("API is working");
+  res.status(200).json("API is working");
+});
 /**
  * I understand the datamodel - ithula enaku etha maari oru style thought process ituku atha tha work pannuven
  * Ivarkuita nala ideas oda soldraru - enaku suite aguthu

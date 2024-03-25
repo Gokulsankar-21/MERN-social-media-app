@@ -12,3 +12,5 @@ router.get("/:userId", verifyToken, getUser); // get the individual user data
 router.get("/:userId/friends", verifyToken, getUserFriends); //get the user's followers
 // UPDATE
 router.patch("/:userId/:friendId", verifyToken, addRemoveFriend); // single user -  add or remove
+
+export default router;

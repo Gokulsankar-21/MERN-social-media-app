@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import User from "../model/User.model";
+import User from "../model/User.model.js";
 import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
+  console.log("register request");
   const {
     firstName,
     lastName,
@@ -10,8 +11,6 @@ export const register = async (req, res) => {
     profilePic,
     location,
     occupation,
-    viewedProfile,
-    impressions,
   } = req.body;
 
   const salt = await bcrypt.genSalt();

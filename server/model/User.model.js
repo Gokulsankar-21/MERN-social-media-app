@@ -37,8 +37,6 @@ const UserSchema = mongoose.Schema(
     profilePic: {
       type: String,
       default: "",
-      min: 5,
-      max: 50,
     },
     location: String,
     occupation: String,
