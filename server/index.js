@@ -15,15 +15,20 @@ import postRoutes from "./routes/post.routes.js";
 import { verifyToken } from "./middleware/auth.middleware.js";
 import { createPost } from "./controllers/post.controller.js";
 import dotenv from "dotenv";
+import { posts, users } from "./data/index.js";
+import User from "./model/User.model.js";
+import Post from "./model/Post.model.js";
+// manually set the dummy data
+
 // configuration
 const app = express();
-const port = process.env.PORT || 6000;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(cors());
 dotenv.config();
 
+const port = process.env.PORT || 6000;
 /// new packages
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -49,13 +54,17 @@ const upload = multer({
 
 // Connect the mongoDB then Start the server - one of the way
 mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
+   .connect(process.env.MONGO)
+  .then(() => {     
     console.log("MongoDB Connected Successfully");
     /// server running
     app.listen(port, () => {
       //   console.log("Server is running on port " + port);
-      console.log("Server is running on port " + process.env.PORT);
+      console.log("Server is running on port " + port);
+      // Add Data One Time Only
+      // User.insertMany(users);
+      // Post.insertMany(posts);
+      // console.log("Data Inserted");
     });
   })
   .catch((err) => console.log("error : " + err.message));
