@@ -38,7 +38,7 @@ const authSlice = createSlice({
 
 // Action Creator
 const { setMode, setLogIn, setLogOut, setPosts, setPost } = authSlice.actions;
-export  authSlice.reducer;
+export default authSlice.reducer;
 /**
  *
  * itha thaniya store la manage pannuvom
