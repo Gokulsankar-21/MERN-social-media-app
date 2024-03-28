@@ -13,8 +13,8 @@ import {
   persistStore,
   persistReducer,
 } from "redux-persist";
-import { storage } from "redux-persist/lib/storage";
-import authReducer from "./state/Redux.js";
+import storage from "redux-persist/lib/storage";
+import authReducer from "./State/Redux.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 // redux-persist config
