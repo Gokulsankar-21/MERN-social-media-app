@@ -332,3 +332,14 @@ export const DynamicForm = () => {
  * instead of image server pathila
  *      firebase and cloudinary pathila nama hosting layae ella media manage pannikirom
  *  */
+/**
+ *
+ * user profile picture name -  frontend localserver/localcomputer moolima get pandrom - ithu multer irukura nala- and media managemeent nama hosting serverla manage pandrthunala
+ * authentication - cookies ah vechi panuvom
+ *  inga headers la vechi manual ah Bearer add apnni set pannrom  - backend la headers-Authorization ah vechi validate pandrom
+ *
+ * @useEffect
+ * ithu component render agum bothu call agum - load agum bothu nu sollalam - many ways to say than
+ * but actual wokflow ithu than
+ *
+ */
