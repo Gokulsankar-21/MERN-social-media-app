@@ -5,6 +5,9 @@ export const HomePage = () => {
   return (
     <Box>
       <NavBar />
+      <Box>
+        
+      </Box>
     </Box>
   );
 };
