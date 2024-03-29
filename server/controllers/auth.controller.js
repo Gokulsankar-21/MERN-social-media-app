@@ -43,7 +43,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log("login request");
+  console.log("login request", req.body);
 
   const { email, password } = req.body;
   try {
@@ -57,9 +57,12 @@ export const login = async (req, res) => {
     }
     if (isMatch) {
       delete user.password;
+      const { password: pass, ...restUserData } = user._doc;
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETKEY);
+      //inga nama key ah vechi than authenticate pandrom, so, server la changes pannalum ethuvum clear agathu
+      // but session la ethvathu changes pannita, server la store agi irukura session id close agidum
 
-      return res.status(200).json({ token, user });
+      return res.status(200).json({ token, restUserData });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

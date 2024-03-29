@@ -42,7 +42,7 @@ const initialValuesRegister = {
 const initialValuesLogin = { email: "", password: "" };
 export const DynamicForm = () => {
   // inga same page layae - same route layae reg and login manage pandrom
-  const [pageType, setPageType] = useState("register");
+  const [pageType, setPageType] = useState("login");
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   //consistent kaga itha boolean ah use panni build panna porom
@@ -86,9 +86,11 @@ export const DynamicForm = () => {
       }
     } catch (error) {
       console.error(error.message);
+      setShowError(error.message || error);
     }
   };
   const loginUser = async (values, onSubmitProps) => {
+    console.log(values);
     try {
       const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
@@ -98,18 +100,19 @@ export const DynamicForm = () => {
         body: JSON.stringify(values),
       });
       const data = await res.json();
-      if (data && res.ok) {
+      if (res.ok) {
         dispatch(
           setLogIn({
-            user: data.user,
+            user: data.restUserData,
             token: data.token,
           }) // functional programming ah base panni ithu workflow irukum
         );
-        onSubmitProps.resetForm();
         navigate("/home");
+        onSubmitProps.resetForm();
       }
     } catch (error) {
       console.error(error.message);
+      setShowError(error.message || error);
     }
   };
   // handle the form Submit
@@ -314,11 +317,18 @@ export const DynamicForm = () => {
  * formik and yup la clarity innum veum
  * so ivaru top-to-bottom order ah poduraru
  *
- * 
+ *
  * inga nama content-type - multi-part/form-data nu set panna boundary um set pannanum
  * but na req header la ethuvum, set pannala ana athu default ah application/json ah anupi iruku
  * so, nama image blob dta bindary data va send panni iruku
  * and backend la multer itha first capture pannidichi
  * because nama sett panna form enctype='multi-part' ithu formik set pannikum
- * 
+ *
+ * indha form multi-part form than pakkava req headers la check panniten
+ * formik boundary ah create pannikithu
+ * en diskstorage layum user profile store aguthu
+ * so multer pakkava work panniyachi
+ * ithu nama local computer and hosting server la store pandra one of the way
+ * instead of image server pathila
+ *      firebase and cloudinary pathila nama hosting layae ella media manage pannikirom
  *  */

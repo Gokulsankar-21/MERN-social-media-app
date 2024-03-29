@@ -156,7 +156,11 @@ export const NavBar = () => {
 
           {/* MENU ITEMS */}
           <FlexBetween flexDirection="column" gap="3rem">
-            <IconButton onClick={() => dispatch(setMode())}>
+            <IconButton
+              onClick={() => {
+                dispatch(setMode());
+              }}
+            >
               {/* Theme based Icon */}
               {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
             </IconButton>
@@ -183,7 +187,12 @@ export const NavBar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogOut())}>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(setLogOut());
+                    navigate("/");
+                  }}
+                >
                   Log Out
                 </MenuItem>
               </Select>
