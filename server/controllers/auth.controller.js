@@ -13,6 +13,11 @@ export const register = async (req, res) => {
     occupation,
   } = req.body;
 
+  if (password.length < 6 && password.length > 50) {
+    return res
+      .status(400)
+      .json({ error: "password length must between 8 and 50 characters" });
+  }
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
   try {
@@ -27,15 +32,19 @@ export const register = async (req, res) => {
       viewedProfile: Math.floor(Math.random() * 1000),
       impressions: Math.floor(Math.random() * 1000),
     });
-    const saveduser = await newUser.save();
 
-    res.status(201).json(saveduser);
+    const savedUser = await newUser.save();
+    delete savedUser.password;
+
+    res.status(201).json(savedUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 export const login = async (req, res) => {
+  console.log("login request");
+
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email: email });

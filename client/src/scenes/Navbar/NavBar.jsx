@@ -63,7 +63,7 @@ export const NavBar = () => {
             },
           }}
         >
-          SoicalPedia
+          SocioPedia
         </Typography>
         {/* INPUT-SEARCH : only Big Screens */}
         {isBigScreens && (

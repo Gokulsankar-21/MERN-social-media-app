@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import multer from "multer";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 // local module
 import { register } from "./controllers/auth.controller.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -14,7 +15,6 @@ import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import { verifyToken } from "./middleware/auth.middleware.js";
 import { createPost } from "./controllers/post.controller.js";
-import dotenv from "dotenv";
 import { posts, users } from "./data/index.js";
 import User from "./model/User.model.js";
 import Post from "./model/Post.model.js";
@@ -29,7 +29,7 @@ app.use(cors());
 dotenv.config();
 
 const port = process.env.PORT || 6000;
-/// new packages
+//new packages
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
@@ -54,8 +54,8 @@ const upload = multer({
 
 // Connect the mongoDB then Start the server - one of the way
 mongoose
-   .connect(process.env.MONGO)
-  .then(() => {     
+  .connect(process.env.MONGO)
+  .then(() => {
     console.log("MongoDB Connected Successfully");
     /// server running
     app.listen(port, () => {
@@ -95,4 +95,18 @@ app.get("/api/test", (req, res) => {
  * Basement enaku strong agidichi ellathaiyum  ipa ennala easy ah pakkava purinjika mudiyum
  * sahand workflow than enaku romba pidichi iruku - atha en manathirila telivana workflow ah vechi irukem - athu than best ana way to develop app and code
  *
+ */
+/**
+ * @Multer
+ *                                                    
+ * https://blog.logrocket.com/multer-nodejs-express-upload-file/
+ * na indtha articles padichen pakka interesting and ellam easy ah cleara ah purinjichi and
+ * file uplaod pathi innum more understanding kedachirichi
+ * ithula cloudinary la upload API pathi pathen athu firebase mathri teriuthu
+ *
+ * cloudinary - binary style
+ * 
+ // react routers pathi innum nalla understand pannikiten
+ https://blog.logrocket.com/react-hooks-replace-react-router/#hooks-alternative-routing
+ ithula hookRouter nu pathen
  */

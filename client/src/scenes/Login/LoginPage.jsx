@@ -1,7 +1,7 @@
 import { useTheme } from "@emotion/react";
-import { DynamicForm } from "@mui/icons-material";
 import { Box, useMediaQuery, Typography } from "@mui/material";
 import React from "react";
+import { DynamicForm } from "./DynamicForm";
 
 export const LoginPage = () => {
   // theme setting
@@ -29,7 +29,7 @@ export const LoginPage = () => {
             },
           }}
         >
-          SoicalPedia
+          SocioPedia
         </Typography>
       </Box>
 
@@ -50,7 +50,7 @@ export const LoginPage = () => {
             mb: "1.5rem",
           }}
         >
-          Welcome to SoicoPedia, the Social Media for Sociopaths!
+          Welcome to SocioPedia !
         </Typography>
         <DynamicForm />
       </Box>

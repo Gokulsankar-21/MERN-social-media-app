@@ -11,6 +11,11 @@ import Dropzone from "react-dropzone";
 import { useTheme } from "@emotion/react";
 import { FlexBetween } from "Components/FlexBetween";
 import { EditOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogIn } from "State/Redux";
+import { useState } from "react";
+
 // Schema for Form validation
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -38,6 +43,8 @@ const initialValuesLogin = { email: "", password: "" };
 export const DynamicForm = () => {
   // inga same page layae - same route layae reg and login manage pandrom
   const [pageType, setPageType] = useState("register");
+  const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
   //consistent kaga itha boolean ah use panni build panna porom
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
@@ -46,9 +53,72 @@ export const DynamicForm = () => {
   const { palette } = useTheme();
   // responsive form
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  // React Hooks
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  // API Call for Authentication
+  const registetUser = async (values, onSubmitProps) => {
+    // ithhu params ah travel panni vanthu iruku but ithu form data va ila
+    // itha image oda default browser form data va matha js interface iruku
+    const formData = new FormData();
+
+    for (let value in values) {
+      formData.append(value, values[value]);
+    }
+    // specific ah image path name ah set panuvom for  user image filepath name
+    formData.append("profilePic", values.picture.name);
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
+        body: formData,
+        //ipa formData + multer + middlware + multi part file hanling ah innum nalla purinjikite
+        // formData -  x-www-form-urlencoded typpe nama anupurom - files ithula chunck ah irukum
+        // atha nama backend la bodyparser la decode panni -
+      });
+      const data = await res.json();
+      if (data && res.ok) {
+        setPageType("login"); // inga complete ah login pannathuku aprm tham global state la store pannuvom
+        onSubmitProps.resetForm();
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  const loginUser = async (values, onSubmitProps) => {
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (data && res.ok) {
+        dispatch(
+          setLogIn({
+            user: data.user,
+            token: data.token,
+          }) // functional programming ah base panni ithu workflow irukum
+        );
+        onSubmitProps.resetForm();
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   // handle the form Submit
-  const handleFormSubmit = async () => {};
+  // ithu formik kula poitu athu extra props add agitu na kudutha intha handler ah callback ah namku work panna vekum
+  // athulla 2 params anupum athu values and onSubmitProps
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    if (isLogin) await loginUser(values, onSubmitProps);
+    if (isRegister) await registetUser(values, onSubmitProps);
+  };
   return (
     <Formik
       onSubmit={handleFormSubmit}
@@ -65,7 +135,7 @@ export const DynamicForm = () => {
         setFieldValue,
         resetForm,
       }) => (
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box
             display="grid"
             gap="30px"
@@ -138,7 +208,7 @@ export const DynamicForm = () => {
                   p="1rem"
                 >
                   <Dropzone
-                    accept=".jpg,.jpeg,.png"
+                    acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
                       setFieldValue("picture", acceptedFiles[0])
@@ -233,6 +303,7 @@ export const DynamicForm = () => {
                 : "ALready have an account? Login here"}
             </Typography>
           </Box>
+          {showError && <p style={{ color: "red" }}>{showError}</p>}
         </form>
       )}
     </Formik>
@@ -243,4 +314,11 @@ export const DynamicForm = () => {
  * formik and yup la clarity innum veum
  * so ivaru top-to-bottom order ah poduraru
  *
- */
+ * 
+ * inga nama content-type - multi-part/form-data nu set panna boundary um set pannanum
+ * but na req header la ethuvum, set pannala ana athu default ah application/json ah anupi iruku
+ * so, nama image blob dta bindary data va send panni iruku
+ * and backend la multer itha first capture pannidichi
+ * because nama sett panna form enctype='multi-part' ithu formik set pannikum
+ * 
+ *  */
