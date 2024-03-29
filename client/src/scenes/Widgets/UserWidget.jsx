@@ -53,7 +53,7 @@ const UserWidget = ({ userId, profilePic }) => {
   const {
     firstName,
     lastName,
-    profilePic,
+    location,
     occupation,
     viewedProfile,
     impressions,
