@@ -1,17 +1,16 @@
-const { useTheme } = require("@emotion/react");
-const {
-  RttRounded,
+import { useTheme } from "@emotion/react";
+import {
   ManageAccountsOutlined,
   LocationOnOutlined,
   EditOutlined,
-} = require("@mui/icons-material");
-const { Box, Typography, Divider } = require("@mui/material");
-const { FlexBetween } = require("Components/FlexBetween");
-const { default: UserImage } = require("Components/UserImage");
-const { default: WidgetWrapper } = require("Components/WidgetWrapper");
-const { useState, useEffect } = require("react");
-const { useSelector } = require("react-redux");
-const { useNavigate } = require("react-router-dom");
+} from "@mui/icons-material";
+import { Box, Typography, Divider } from "@mui/material";
+import { FlexBetween } from "Components/FlexBetween";
+import { UserImage } from "Components/UserImage";
+import { WidgetWrapper } from "Components/WidgetWrapper";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const UserWidget = ({ userId, profilePic }) => {
   const [user, setUser] = useState(null);

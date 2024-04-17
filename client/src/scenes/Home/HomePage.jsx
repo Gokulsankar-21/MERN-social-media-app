@@ -3,6 +3,7 @@ import { NavBar } from "../Navbar/NavBar";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import UserWidget from "scenes/Widgets/UserWidget";
+import { MyPostWidget } from "scenes/Widgets/MyPostWidget";
 
 export const HomePage = () => {
   const { _id, profilePic } = useSelector((state) => state.user);
@@ -22,7 +23,7 @@ export const HomePage = () => {
           profilePic={profilePic}
         />
         <Box flexBasis={isNonMobileScreens ? "42%" : undefined}>
-          <MyPostWidget     profilePic={profilePic}/>
+          <MyPostWidget profilePic={profilePic} />
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis={isNonMobileScreens ? "26%" : undefined}></Box>
@@ -37,6 +38,6 @@ export const HomePage = () => {
  * intha multer use panni disk storage la pannum bothu ipa learningla vera entha platform kum poga theva ila
  */
 /**
- * @Testing
+ * @Testing and @Futute_ideas
  * nested comments logic handle  pannanaum
  */
